@@ -9,7 +9,7 @@ class Escena2 extends Phaser.Scene{
         this.load.spritesheet('nave', '../public/img/nave.png', {frameWidth:70, frameHeight:62});
         //this.load.image('enemy', '../public/img/enemy.png');
         this.load.image('shoot', '../public/img/shoot.png');
-        this.load.image('meteorito', '../public/img/meteorito.png');
+        this.load.image('meteorito', '../public/img/meteorito.png'); 
         this.load.image('enemy', '../public/img/boss.png');
     }
     
