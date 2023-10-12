@@ -5,12 +5,12 @@ class Escena2 extends Phaser.Scene{
     }
     
     preload(){
-        this.load.image('fondo', '../public/img/espacio2.jpg');    
+        this.load.image('fondo', '../public/img/espacio.jpg');    
         this.load.spritesheet('nave', '../public/img/nave.png', {frameWidth:70, frameHeight:62});
-        //this.load.image('enemy', '../public/img/enemy.png');
+        this.load.image('enemy', '../public/img/enemy.png');
         this.load.image('shoot', '../public/img/shoot.png');
-        this.load.image('meteorito', '../public/img/meteorito.png'); 
-        this.load.image('enemy', '../public/img/boss.png');
+        this.load.image('meteorito', '../public/img/meteorito.png');
+        //this.load.image('enemy', '../public/img/boss.png');
     }
     
     create(){
@@ -68,7 +68,6 @@ class Escena2 extends Phaser.Scene{
             n = n * -1;
             child.setVelocityY(n);
             child.setVelocityX(Phaser.Math.Between(-50, -100));
-            child.setCollideWorldBounds(true);
           });
           //this.enemys = this.physics.add.image(700, 300, 'enemy');
           //this.enemys.setCollideWorldBounds(true);
@@ -143,13 +142,13 @@ class Escena2 extends Phaser.Scene{
               }
             });
     
-           this.bullets.children.iterate(function(bullet){
+           /*this.bullets.children.iterate(function(bullet){
               if(bullet.x > 750){
                 //bullet.destroy();
                 bullet.setActive(false);
                 bullet.setVisible(false);
               }
-            })
+            })*/
     
       }
       playerAttack(bullet,enemy){
