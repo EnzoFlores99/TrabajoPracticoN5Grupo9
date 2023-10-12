@@ -2,6 +2,7 @@ import inicio from "./escenas/inicio.js";
 //import Escena1 from "./escenas/Escena1.js";
 import Escena2 from "./escenas/Escena2.js";
 import GameOver from "./escenas/GameOver.js";
+import Booyah from "./escenas/Booyah.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -18,6 +19,6 @@ let config = {
             debug: false
         }
     },
-    scene:[inicio]
+    scene:[Escena2]
 };
 let game = new Phaser.Game(config);
