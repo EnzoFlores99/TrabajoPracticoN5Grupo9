@@ -1,4 +1,5 @@
-import Escena1 from "./escenas/Escena1.js";
+import inicio from "./escenas/inicio.js";
+//import Escena1 from "./escenas/Escena1.js";
 import Escena2 from "./escenas/Escena2.js";
 
 let config = {
@@ -16,6 +17,6 @@ let config = {
             debug: false
         }
     },
-    scene:[Escena2,Escena1]
+    scene:[inicio]
 };
 let game = new Phaser.Game(config);
