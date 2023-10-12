@@ -13,8 +13,9 @@ class Escena2 extends Phaser.Scene{
       this.load.image('shoot', '../public/img/shoot.png');
       this.load.image('meteorito', '../public/img/meteorito.png');
       this.load.image('red', '/public/img/red.png');
-      this.load.image('star', '../public/img/star.png');
+      this.load.image('bonus', '../public/img/bonus.png');
       this.load.image('heart', '../public/img/heart.png');
+      
   }
   
   create(){
@@ -26,6 +27,11 @@ class Escena2 extends Phaser.Scene{
   
         this.add.image(60,30,'heart').setScale(0.4);
         this.vidasText = this.add.text(16, 16, '5', {fontSize: '32px', fill: '#FFFF'});
+        //Se  agrega el bonus
+        this.stars = this.physics.add.image(700, 150, 'bonus').setScale(0.1);
+        this.stars.setVelocity(90,300);
+        this.stars.setBounce(1);
+        this.stars.setCollideWorldBounds(true);
         
         //PLAYER
         this.player = this.physics.add.sprite(100, 300, 'nave');
@@ -70,8 +76,8 @@ class Escena2 extends Phaser.Scene{
         this.enemys = this.physics.add.group({
           key: 'enemy',
           live: 3,
-          repeat: 3, //cantidad
-          setXY: { x: 900, y: 50, stepY: 250 }
+          repeat: 9, //cantidad
+          setXY: { x: 1000, y: 50, stepY: 200 }
         });
         
         let n = -100;
@@ -88,8 +94,8 @@ class Escena2 extends Phaser.Scene{
         //Meteroritos
         this.meteoritos = this.physics.add.group({
           key: 'meteorito',
-          repeat: 3, //cantidad
-          setXY: { x: 700, y: 150, stepY: Phaser.Math.FloatBetween(150, 500) } //empieza en la posicion x e y, se repite cada 70 de espacios
+          repeat: 9, //cantidad
+          setXY: { x: 750, y: 150, stepY: Phaser.Math.FloatBetween(100,300) } //empieza en la posicion x e y, se repite cada 70 de espacios
         });
         
         this.meteoritos.children.iterate(function(meteorito){
@@ -97,27 +103,25 @@ class Escena2 extends Phaser.Scene{
           meteorito.setVelocityX(Phaser.Math.Between(-300, -500));
         });
   
-        //Evento de actualizacion
+        //Evento aparición de meteoritos
         this.time.addEvent({
           delay: 3500,
           callback: this.crearMeteoritos,
           callbackScope: this,
-          repeat: 5
+          repeat: 9
         });
         
-        //Se  agrega el bonus
-        this.stars = this.physics.add.group({
-          key: 'star',
-          repeat: 0, //cantidad de estrellas
-          setXY: { x: 300, y: 200, stepY: 110 } //empieza en la posicion x e y, se repite cada 70 de espacios
-      });
+        
   
-      //Choque entre las balas del player y los enemys
-      this.physics.add.overlap(this.bullets, this.enemys, this.playerAttack, null , this );
-      //Choque entre las estrellas y el jugador
+      //Choque balas del player
+      this.physics.add.overlap(this.bullets, this.enemys, this.playerAttack, null , this ); //enemys
+      this.physics.add.overlap(this.bullets, this.meteoritos, this.balasMeteoro, null , this ); //meteoritos
+      //Choque entre el player y el bonus
       this.physics.add.overlap(this.player, this.stars, this.collectStar, null , this );
       //Choque entre el player y los meteoritos 
       this.physics.add.overlap(this.player, this.meteoritos, this.colisionMeteoro, null , this );
+      //choque entre el player y el enemigo
+      this.physics.add.overlap(this.player, this.enemys, this.enemyAttack, null , this );
       
     }
     update(){
@@ -142,6 +146,7 @@ class Escena2 extends Phaser.Scene{
               this.player.setVelocityX(-200);
               this.player.anims.play('turn', true);
               this.particles.y = 0;
+  
           }else if (this.cursors.right.isDown ){
               this.player.setVelocityX(200);
               this.player.setVelocityY(0);
@@ -152,7 +157,6 @@ class Escena2 extends Phaser.Scene{
           // Manejo del disparo
           if(this.cursors.space.isDown && this.time.now > this.lastShot + this.minTime){
             // Solo dispara si se ha pasado suficiente tiempo desde el último disparo
-            
             if(this.bonus){
               let bullet = this.bullets.create(this.player.x+35 , this.player.y-15, 'shoot');
               
@@ -186,32 +190,15 @@ class Escena2 extends Phaser.Scene{
             if(bullet && bullet instanceof Phaser.GameObjects.Sprite && bullet.x > 750){
               bullet.destroy();
             }
+          });
+  
+          this.enemys.children.iterate(function(enemy){
+            if(enemy && enemy instanceof Phaser.GameObjects.Sprite && enemy.x < 0){
+              enemy.destroy();
+            }
           })
   
     }
-  
-    enemyExplosion(x, y) {
-      // Crea un nuevo emisor de partículas
-      const explosionEmitter = this.particlesEnemy.createEmitter({
-        x: x,
-        y: y,
-        speed: 100,
-        angle: { min: 0, max: 360 },
-        scale: { start: 1, end: 0 },
-        lifespan: 500,
-        blendMode: 'ADD',
-      });
-    
-      // Activa el emisor de partículas
-      explosionEmitter.start();
-    
-      // Detiene el emisor después de un corto tiempo
-      this.time.delayedCall(500, () => {
-        explosionEmitter.stop();
-        explosionEmitter.remove();
-      });
-    }
-    
   
     playerAttack(bullet,enemy){
       bullet.destroy();
@@ -239,11 +226,17 @@ class Escena2 extends Phaser.Scene{
       this.vidasText.setText(this.vidas);
       console.log(this.vidas);
       if(this.vidas == 0){
-        console.log("Game Over");
+        alert("Game Over");
       }
       
     }
   
+    balasMeteoro(bullet, meteorito){
+      meteorito.disableBody(true, true);
+    }
+    enemyAttack(player, enemy){
+      alert("Game Over por enemy");
+    }
   
   }
     export default Escena2;
