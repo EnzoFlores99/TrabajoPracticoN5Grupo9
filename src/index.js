@@ -18,7 +18,6 @@ let config = {
             debug: false
         }
     },
-    //scene:[inicio]
     scene:[GameOver]
 };
 let game = new Phaser.Game(config);
