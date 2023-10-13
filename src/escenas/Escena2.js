@@ -72,11 +72,13 @@ class Escena2 extends Phaser.Scene{
         this.lastShot = 0; // Variable para controlar el tiempo desde el último disparo
         this.minTime = 200; // Tiempo mínimo entre disparos en milisegundos
         
-        //ENEMY
-        this.enemys = this.physics.add.group({
+
+        ///////////////////////////////////
+        //ENEMY  
+       this.enemys = this.physics.add.group({
           key: 'enemy',
           live: 3,
-          repeat: 9, //cantidad
+          repeat: 100, //cantidad
           setXY: { x: 1000, y: 50, stepY: 200 }
         });
         
