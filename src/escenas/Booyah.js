@@ -34,8 +34,7 @@ class Booyah extends Phaser.Scene{
         this.starbutton = this.add.image(700, 500, 'menu').setScale(0.31).setInteractive();
         
         this.starbutton.on('pointerdown', () =>{
-            this.scene.stop("Booyah");
-            this.scene.start('inicio');
+            this.scene.start('menu');
         } );
     } 
 }
