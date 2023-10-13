@@ -86,6 +86,7 @@ class inicio extends Phaser.Scene{
 
 
 
+    // colision con el portal -- this.physics.add.collider(this.player, this.portal, this.pasarnivel, null, this);
 
 
       }
@@ -131,7 +132,14 @@ class inicio extends Phaser.Scene{
         bullet.setVelocity(300, 0); // Establece la velocidad de la bala (en este caso, hacia arriba)
     }
       }
-
+/* pasar al nivel con el portal
+      pasarnivel(player, portal){
+         
+       // player.setTint(0xff0000);
+        // player.anims.play('turn');
+          this.scene.start('Escena1');
+}
+*/
 }
 
 export  default inicio;
