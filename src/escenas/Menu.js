@@ -2,7 +2,7 @@ class Menu extends Phaser.Scene {
 
   constructor() {
     super("menu");
-
+    this.ismusic=true;
   }
 
   preload() {
@@ -23,13 +23,13 @@ class Menu extends Phaser.Scene {
     ////////////////////////////////////////////////////////
     this.add.image(400, 300, 'menunave');  // imagen del fondo 
     this.add.image(400, 200, 'titulo').setScale(0.4);
+    this.musica= this.sound.add('musicafondo')
 
 
-    this.starbutton = this.add.image(400, 500, 'start').setScale(0.7).setInteractive();
+    this.starbutton1 = this.add.image(400, 500, 'start').setScale(0.7).setInteractive();
 
-    this.starbutton.on('pointerdown', () => {
+    this.starbutton1.on('pointerdown', () => {
       this.scene.start('inicio');
-
     });
 
 
@@ -37,40 +37,17 @@ class Menu extends Phaser.Scene {
 
 
 
-    this.starbutton = this.add.image(50, 50, 'musicaoff').setScale(0.05).setInteractive();
-
-    this.starbutton.on('pointerdown', () => {
-
-      // -----------------sonido-------------
-      this.add.image(50, 50, 'musicaon').setScale(0.05)
-
-
-
-
-      this.sonido = this.sound.add('musicafondo');
-      const soundConfig = {
-        volumen: 1,              // toda esta parte es del
-
-        loop: true               // sonidoooo
+    this.starbuttonMusic = this.add.image(50, 50, 'musicaoff').setScale(0.05).setInteractive();
+    this.starbuttonMusic.on('pointerdown',()=>{
+      if (this.ismusic){
+        this.starbuttonMusic.setTexture('musicaon');
+        this.musica.play();
+      }else{
+        this.starbuttonMusic.setTexture('musicaoff');
+        this.musica.stop();
       }
-      // esto no va this.sonido.play(soundConfig);
-      // con esto solo carga una unica vez
-      if (!this.sound.locked) {
-        // already unlocked so play
-        this.sonido.play(soundConfig)
-      }
-      else {
-        //wait for 'unloched ' to free and the play 
-        this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
-          this.sonido.play(soundConfig)
-
-        })
-      }
-
-
-
+      this.ismusic=!this.ismusic
     });
-
   }
   //update
 
